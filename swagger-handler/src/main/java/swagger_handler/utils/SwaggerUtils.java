@@ -36,7 +36,9 @@ public class SwaggerUtils implements SwaggerProcessable {
 
     @Override
     public String deleteIncorrectEndpoints(String swagger) {
+        boolean incorrectEndpoint = false;
         List<String> parametersEndpoint;
+        List<String> bodyParams = new ArrayList<>();
         Object o = null;
         List<String> parameters = new ArrayList<>();
         List<Map.Entry<String, JsonNode>> incorrectEndpoints = new ArrayList<>();
@@ -60,96 +62,128 @@ public class SwaggerUtils implements SwaggerProcessable {
                     .filter(x -> x.get("get").get("parameters") != null)
                     .map(x -> x.get("get").get("parameters")).collect(Collectors.toList())
                     .forEach(x -> x.forEach(b -> {
-                        if (!(b.get("in").textValue().equals("query"))) {
+
+                        if ((b.get("in").textValue().equals("path"))) {
                             parameters.add(b.get("name").textValue());
                         }
                     }));
+
+            if (!(parameters.equals(parametersEndpoint))) {
+                if (entry.getValue().get("get") != null) {
+                    incorrectEndpoint = true;
+                }
+            }
+            parameters.clear();
 
             Stream.of(entry.getValue()).filter(x -> x.get("post") != null)
                     .filter(x -> x.get("post").get("parameters") != null)
                     .map(x -> x.get("post").get("parameters")).collect(Collectors.toList())
                     .forEach(x -> x.forEach(b -> {
-                        if (!(b.get("in").textValue().equals("query"))) {
+                        if ((b.get("in").textValue().equals("path"))) {
                             parameters.add(b.get("name").textValue());
+                        }
+                        if ((b.get("in").textValue().equals("body"))) {
+                            bodyParams.add(b.get("name").textValue());
                         }
                     }));
 
-            Stream.of(entry.getValue()).filter(x -> x.get("put") != null)
-                    .filter(x -> x.get("put").get("parameters") != null)
-                    .map(x -> x.get("put").get("parameters")).collect(Collectors.toList())
-                    .forEach(x -> x.forEach(b -> {
-                        if (!(b.get("in").textValue().equals("query"))) {
-                            parameters.add(b.get("name").textValue());
-                        }
-                    }));
-
-            Stream.of(entry.getValue()).filter(x -> x.get("delete") != null)
-                    .filter(x -> x.get("delete").get("parameters") != null)
-                    .map(x -> x.get("delete").get("parameters")).collect(Collectors.toList())
-                    .forEach(x -> x.forEach(b -> {
-                        if (!(b.get("in").textValue().equals("query"))) {
-                            parameters.add(b.get("name").textValue());
-                        }
-                    }));
-
-            for (String parameterEndpoint : parametersEndpoint) {
-                if (!(parameters.contains(parameterEndpoint))) {
-                    incorrectEndpoints.add(entry);
-                    iterator.remove();
-                    break;
+            if (parameters.equals(parametersEndpoint) && bodyParams.size() == 0) {
+                if (entry.getValue().get("post") != null) {
+                        incorrectEndpoint = true;
                 }
             }
-            parameters.clear();
-        }
-        return actualObj.toString();
-    }
+                bodyParams.clear();
+                parameters.clear();
 
-    @Override
-    public String deleteJsonDeprecatedEndpoints(String swagger) {
-        JsonNode actualObj = null;
-        ObjectMapper mapper = new ObjectMapper();
-        try {
-            actualObj = mapper.readTree(swagger);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        Iterator<Map.Entry<String, JsonNode>> iterator = actualObj.get("paths").fields();
-        while (iterator.hasNext()) {
-            if ((iterator.next().getValue().fields().next().getValue().get("deprecated") != null)) {
-                iterator.remove();
+                Stream.of(entry.getValue()).filter(x -> x.get("put") != null)
+                        .filter(x -> x.get("put").get("parameters") != null)
+                        .map(x -> x.get("put").get("parameters")).collect(Collectors.toList())
+                        .forEach(x -> x.forEach(b -> {
+                            if ((b.get("in").textValue().equals("path"))) {
+                                parameters.add(b.get("name").textValue());
+                            }
+                        }));
+
+                if (!(parameters.equals(parametersEndpoint))) {
+                    if (entry.getValue().get("put") != null) {
+                        incorrectEndpoint = true;
+                    }
+                }
+                parameters.clear();
+
+                Stream.of(entry.getValue()).filter(x -> x.get("delete") != null)
+                        .filter(x -> x.get("delete").get("parameters") != null)
+                        .map(x -> x.get("delete").get("parameters")).collect(Collectors.toList())
+                        .forEach(x -> x.forEach(b -> {
+                            if ((b.get("in").textValue().equals("path"))) {
+                                parameters.add(b.get("name").textValue());
+                            }
+                        }));
+
+                if (!(parameters.equals(parametersEndpoint))) {
+                    if (entry.getValue().get("delete") != null) {
+                        incorrectEndpoint = true;
+                    }
+                }
+                parameters.clear();
+
+                if (incorrectEndpoint) {
+                    incorrectEndpoints.add(entry);
+                    iterator.remove();
+                }
+                incorrectEndpoint = false;
+                parameters.clear();
+                parametersEndpoint.clear();
             }
+            return actualObj.toString();
         }
-        return actualObj.toString();
-    }
 
-    @Override
-    public String deleteYamlDeprecatedEndpoints(String swagger) {
-        ObjectMapper yamlMapper = new ObjectMapper(new YAMLFactory());
-        ObjectMapper jsonWriter = new ObjectMapper();
-        Object object;
-        String json = "";
-        JsonNode jsonNode;
-        String yaml = "";
-        String processedJson;
-        try {
-            object = yamlMapper.readValue(swagger, Object.class);
-            json = jsonWriter.writerWithDefaultPrettyPrinter().writeValueAsString(object);
-        } catch (IOException e) {
-            e.printStackTrace();
+        @Override
+        public String deleteJsonDeprecatedEndpoints (String swagger){
+            JsonNode actualObj = null;
+            ObjectMapper mapper = new ObjectMapper();
+            try {
+                actualObj = mapper.readTree(swagger);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            Iterator<Map.Entry<String, JsonNode>> iterator = actualObj.get("paths").fields();
+            while (iterator.hasNext()) {
+                if ((iterator.next().getValue().fields().next().getValue().get("deprecated") != null)) {
+                    iterator.remove();
+                }
+            }
+            return actualObj.toString();
         }
-        processedJson = deleteJsonDeprecatedEndpoints(json);
 
-        try {
-            jsonNode = yamlMapper.readTree(processedJson);
-            yaml = new YAMLMapper().writeValueAsString(jsonNode);
-        } catch (IOException e) {
-            e.printStackTrace();
+        @Override
+        public String deleteYamlDeprecatedEndpoints (String swagger){
+            ObjectMapper yamlMapper = new ObjectMapper(new YAMLFactory());
+            ObjectMapper jsonWriter = new ObjectMapper();
+            Object object;
+            String json = "";
+            JsonNode jsonNode;
+            String yaml = "";
+            String processedJson;
+            try {
+                object = yamlMapper.readValue(swagger, Object.class);
+                json = jsonWriter.writerWithDefaultPrettyPrinter().writeValueAsString(object);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            processedJson = deleteJsonDeprecatedEndpoints(json);
+
+            try {
+                jsonNode = yamlMapper.readTree(processedJson);
+                yaml = new YAMLMapper().writeValueAsString(jsonNode);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return yaml;
         }
-        return yaml;
-    }
 
-    @Override
-    public String cleanJsonSwagger(String swagger) {
-        return deleteJsonDeprecatedEndpoints(deleteIncorrectEndpoints(swagger));
+        @Override
+        public String cleanJsonSwagger (String swagger){
+            return deleteJsonDeprecatedEndpoints(deleteIncorrectEndpoints(swagger));
+        }
     }
-}
