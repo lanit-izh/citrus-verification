@@ -1,6 +1,6 @@
-package swagger_handler.utils;
+package verification.utils;
 
-import swagger_handler.interfaces.SwaggerProcessing;
+import verification.interfaces.SwaggerProcessing;
 
 public abstract class AbstractSwaggerVerification implements SwaggerProcessing {
 

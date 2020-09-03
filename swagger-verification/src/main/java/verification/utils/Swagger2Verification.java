@@ -1,4 +1,4 @@
-package swagger_handler.utils;
+package verification.utils;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;

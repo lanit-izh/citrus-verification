@@ -1,6 +1,6 @@
-package swagger_handler;
+package verification;
 
-import swagger_handler.utils.Swagger2Verification;
+import verification.utils.Swagger2Verification;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -11,7 +11,7 @@ public class Main {
         FileInputStream fileInputStream = null;
         Swagger2Verification swaggerUtils =  new Swagger2Verification();
         try {
-             fileInputStream = new FileInputStream("D:\\Work\\swagger_handler\\swagger-handler\\src\\main\\resources\\api-docs.json");
+             fileInputStream = new FileInputStream("D:\\Work\\swagger_handler\\swagger-verification\\src\\main\\resources\\api-docs.json");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }

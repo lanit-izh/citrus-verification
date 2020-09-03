@@ -1,4 +1,4 @@
-package swagger_handler.interfaces;
+package verification.interfaces;
 
 import java.io.FileInputStream;
 
