@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
 import org.apache.log4j.Logger;
-import swagger_handler.interfaces.SwaggerProcessing;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -18,9 +17,9 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class SwaggerUtils implements SwaggerProcessing {
+public class Swagger2Verification extends AbstractSwaggerVerification {
 
-    private static Logger log = Logger.getLogger(SwaggerUtils.class.getName());
+    private static Logger log = Logger.getLogger(Swagger2Verification.class.getName());
 
     private List<Map.Entry<String, JsonNode>> incorrectEndpoints = new ArrayList<>();
     private List<Map.Entry<String, JsonNode>> postIncorrectEndpoints = new ArrayList<>();
@@ -48,8 +47,6 @@ public class SwaggerUtils implements SwaggerProcessing {
 
     @Override
     public String deleteIncorrectEndpoints(String swagger) {
-        boolean incorrectEndpoint = false;
-
         JsonNode actualObj = null;
         ObjectMapper mapper = new ObjectMapper();
         try {
@@ -62,25 +59,15 @@ public class SwaggerUtils implements SwaggerProcessing {
         while (iterator.hasNext()) {
             Map.Entry<String, JsonNode> entry = iterator.next();
 
-            incorrectEndpoint = checkGetEndpoint(entry);
-            incorrectEndpoint = checkPostEndpoint(entry);
-            incorrectEndpoint = checkPutEndpoint(entry);
-            incorrectEndpoint = checkDeleteEndpoint(entry);
-
-            if (incorrectEndpoint) {
+            if (checkGetEndpoint(entry) || checkPostEndpoint(entry) || checkPutEndpoint(entry) || checkDeleteEndpoint(entry)) {
                 incorrectEndpoints.add(entry);
                 iterator.remove();
             }
-
-            incorrectEndpoint = false;
-            parameters.clear();
-            parametersEndpoint.clear();
         }
         getIncorrectEndpoints.forEach(x -> log.info("GET----> " + x.getKey()));
         postIncorrectEndpoints.forEach(x -> log.info("POST----> " + x.getKey()));
         putIncorrectEndpoints.forEach(x -> log.info("PUT----> " + x.getKey()));
         deleteIncorrectEndpoints.forEach(x -> log.info("DELETE----> " + x.getKey()));
-
         return actualObj.toString();
     }
 
@@ -103,6 +90,7 @@ public class SwaggerUtils implements SwaggerProcessing {
         if (!(parameters.equals(parametersEndpoint))) {
             if (entry.getValue().get("get") != null) {
                 getIncorrectEndpoints.add(entry);
+                parameters.clear();
                 return true;
             }
         }
@@ -126,6 +114,8 @@ public class SwaggerUtils implements SwaggerProcessing {
         if (parameters.equals(parametersEndpoint) && bodyParams.size() == 0) {
             if (entry.getValue().get("post") != null) {
                 postIncorrectEndpoints.add(entry);
+                bodyParams.clear();
+                parameters.clear();
                 return true;
             }
         }
@@ -150,6 +140,8 @@ public class SwaggerUtils implements SwaggerProcessing {
         if (parameters.equals(parametersEndpoint) && bodyParams.size() == 0) {
             if (entry.getValue().get("put") != null) {
                 putIncorrectEndpoints.add(entry);
+                bodyParams.clear();
+                parameters.clear();
                 return true;
             }
         }
@@ -171,7 +163,8 @@ public class SwaggerUtils implements SwaggerProcessing {
         if (!(parameters.equals(parametersEndpoint))) {
             if (entry.getValue().get("delete") != null) {
                 deleteIncorrectEndpoints.add(entry);
-               return true;
+                parameters.clear();
+                return true;
             }
         }
         parameters.clear();
@@ -223,7 +216,7 @@ public class SwaggerUtils implements SwaggerProcessing {
     }
 
     @Override
-    public String cleanJsonSwagger(String swagger) {
+    public String verificateJsonSwagger(String swagger) {
         return deleteJsonDeprecatedEndpoints(deleteIncorrectEndpoints(swagger));
     }
 }
