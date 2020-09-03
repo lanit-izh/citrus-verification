@@ -1,4 +1,4 @@
-package verification.utils;
+package verification;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -6,10 +6,7 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
 import org.apache.log4j.Logger;
 
-import java.io.BufferedReader;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -29,21 +26,6 @@ public class Swagger2Verification extends AbstractSwaggerVerification {
     private List<String> parametersEndpoint;
     private List<String> bodyParams = new ArrayList<>();
     private List<String> parameters = new ArrayList<>();
-
-    @Override
-    public String getContentFile(FileInputStream fis) {
-        StringBuilder sb = new StringBuilder();
-        try (BufferedReader br = new BufferedReader(new InputStreamReader(fis))) {
-            String line;
-            while ((line = br.readLine()) != null) {
-                sb.append(line);
-                sb.append('\n');
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return sb.toString();
-    }
 
     @Override
     public String deleteIncorrectEndpoints(String swagger) {

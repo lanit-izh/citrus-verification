@@ -1,4 +1,4 @@
-package verification.utils;
+package verification;
 
 import verification.interfaces.SwaggerProcessing;
 
