@@ -198,7 +198,7 @@ public class Swagger2Verification extends AbstractSwaggerVerification {
     }
 
     @Override
-    public String verificateJsonSwagger(String swagger) {
+    public String verifyJsonSwagger(String swagger) {
         return deleteJsonDeprecatedEndpoints(deleteIncorrectEndpoints(swagger));
     }
 }

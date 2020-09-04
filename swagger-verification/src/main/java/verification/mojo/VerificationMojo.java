@@ -1,11 +1,11 @@
-package verification;
+package verification.mojo;
 
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
-import org.apache.maven.project.MavenProject;
+import verification.Swagger2Verification;
 import verification.utils.FileSwaggerReader;
 import verification.utils.FileSwaggerWriter;
 
@@ -18,8 +18,8 @@ public class VerificationMojo extends AbstractMojo {
     @Parameter(property =  "path")
     private String path;
 
-    @Parameter( defaultValue = "${project}", readonly = true )
-    private MavenProject project;
+//    @Parameter( defaultValue = "${project}", readonly = true )
+//    private MavenProject project;
 
     public void execute() throws MojoExecutionException {
         File file = new File(path);
@@ -28,10 +28,9 @@ public class VerificationMojo extends AbstractMojo {
         FileSwaggerWriter fileWriter = new FileSwaggerWriter(file);
 
         try {
-            fileWriter.write(new Swagger2Verification().verificateJsonSwagger(fileSystemReader.readFile()));
+            fileWriter.write(new Swagger2Verification().verifyJsonSwagger(fileSystemReader.readFile()));
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 }
