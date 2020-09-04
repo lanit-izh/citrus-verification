@@ -8,18 +8,13 @@ import org.apache.maven.plugins.annotations.Parameter;
 import verification.Swagger2Verification;
 import verification.utils.FileSwaggerReader;
 import verification.utils.FileSwaggerWriter;
-
 import java.io.File;
 import java.io.IOException;
-
 
 @Mojo(name = "setPath", defaultPhase = LifecyclePhase.PROCESS_CLASSES, threadSafe = true)
 public class VerificationMojo extends AbstractMojo {
     @Parameter(property =  "path")
     private String path;
-
-//    @Parameter( defaultValue = "${project}", readonly = true )
-//    private MavenProject project;
 
     public void execute() throws MojoExecutionException {
         File file = new File(path);

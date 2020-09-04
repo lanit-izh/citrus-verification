@@ -13,7 +13,7 @@ public class FileSwaggerWriter {
     }
     public void write(String swagger) throws IOException {
 
-        try (FileWriter fw = new FileWriter(file.getName())) {
+        try (FileWriter fw = new FileWriter(file.getPath())) {
 
             fw.write(swagger);
             fw.flush();
