@@ -1,21 +1,44 @@
-# swagger-verification
-version 1.0.1
+swagger-verification
+version 1.1.3 
 
-swagger-verification - это библиотека для обработки сваггер файлов в формате json и yaml(удаляет deprecated и некорректные endpoints)
+swagger-verification - это верификатор спецификации Swagger OpenAPI.
 
 Системные требования
---------------------
-JDK - 1.8  
-Maven - 3.3 и выше    
+
+JDK - 1.8
+Maven - 3.5 и выше
 
 Как добавить в проект
---------------------
- добавить в проект следующую конфигурацию плагина в POM-файл Maven:
-```xml
-        <dependency>
-            <groupId>ru.lanit</groupId>
-            <artifactId>swagger-handler</artifactId>
-            <version>1.0.1</version>
-        </dependency>
-```
 
+Предварительно нужно скачать плагин и установить его в локальный репозиторий с помощью команды:
+
+mvn clean install
+Далее добавить в проект следующую конфигурацию плагина в POM-файл Maven:
+
+                       <plugin>
+                            <groupId>ru.lanit</groupId>
+                            <artifactId>swagger-verification</artifactId>
+                            <version>1.1.3</version>
+                            <configuration>
+                                <path>src/main/resources/swagger/swagger-restfull.json</path>
+                            </configuration>
+                            <executions>
+                                <execution>
+                                    <id>process</id>
+                                    <phase>process-classes</phase>
+                                    <goals>
+                                        <goal>setPath</goal>
+                                    </goals>
+                                </execution>
+                            </executions>
+                        </plugin>
+Конфигурация плагина
+
+Основные настройки:
+<path> - путь к файлу спецификации Swagger OpenAPI;
+
+Для работы тестов необходимо добавить ряд зависимостей:
+
+Выполняется с помощью команды:
+
+mvn clean install
