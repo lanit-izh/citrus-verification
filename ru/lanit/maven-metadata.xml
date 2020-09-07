@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+  <plugins>
+    <plugin>
+      <name>Verification Swagger Maven Plugin</name>
+      <prefix>swagger-verification</prefix>
+      <artifactId>swagger-verification</artifactId>
+    </plugin>
+  </plugins>
+</metadata>
