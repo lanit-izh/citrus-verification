@@ -37,7 +37,7 @@ mvn clean install
 
 Основные настройки:
 
-<path> - путь к файлу спецификации Swagger OpenAPI;
+<path>-путь к файлу спецификации Swagger OpenAPI;
 
 Выполняется с помощью команды:
 
