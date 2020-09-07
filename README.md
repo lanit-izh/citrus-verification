@@ -2,6 +2,7 @@ swagger-verification
 version 1.1.3 
 
 swagger-verification - это верификатор спецификации Swagger OpenAPI.
+Библиотека удаляет deprecated и некорректные эндпоинты.
 
 Системные требования
 
