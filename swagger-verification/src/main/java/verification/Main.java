@@ -1,27 +1,16 @@
-package verification.mojo;
+package verification;
 
 import freemarker.template.TemplateException;
-import org.apache.maven.plugin.AbstractMojo;
-import org.apache.maven.plugin.MojoExecutionException;
-import org.apache.maven.plugins.annotations.LifecyclePhase;
-import org.apache.maven.plugins.annotations.Mojo;
-import org.apache.maven.plugins.annotations.Parameter;
-import verification.FileSwaggerReader;
-import verification.FileSwaggerWriter;
-import verification.Swagger2Verification;
 import verification.utils.FreemarkerUtils;
 
 import java.io.File;
 import java.io.IOException;
 
-@Mojo(name = "setPath", defaultPhase = LifecyclePhase.PROCESS_CLASSES, threadSafe = true)
-public class VerificationMojo extends AbstractMojo {
-    @Parameter(property = "path")
-    private String path;
+public class Main {
 
-    public void execute() throws MojoExecutionException {
+    public static void main (String[] args) throws IOException, TemplateException {
         Swagger2Verification swagger2Verification = new Swagger2Verification();
-        File file = new File(path);
+        File file = new File("src/main/resources/api-docs.json");
         FileSwaggerReader fileSystemReader;
         fileSystemReader = new FileSwaggerReader(file);
         FileSwaggerWriter fileWriter = new FileSwaggerWriter(file);

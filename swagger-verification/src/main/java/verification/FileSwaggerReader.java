@@ -1,4 +1,4 @@
-package verification.utils;
+package verification;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;

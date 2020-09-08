@@ -4,7 +4,9 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
+import freemarker.template.TemplateException;
 import org.apache.log4j.Logger;
+import verification.utils.FreemarkerUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -29,6 +31,7 @@ public class Swagger2Verification extends AbstractSwaggerVerification {
 
     @Override
     public String deleteIncorrectEndpoints(String swagger) {
+
         JsonNode actualObj = null;
         ObjectMapper mapper = new ObjectMapper();
         try {
@@ -43,9 +46,11 @@ public class Swagger2Verification extends AbstractSwaggerVerification {
 
             if (checkGetEndpoint(entry) || checkPostEndpoint(entry) || checkPutEndpoint(entry) || checkDeleteEndpoint(entry)) {
                 incorrectEndpoints.add(entry);
-                iterator.remove();
+              //  iterator.remove();
             }
         }
+
+
         getIncorrectEndpoints.forEach(x -> log.info("GET----> " + x.getKey()));
         postIncorrectEndpoints.forEach(x -> log.info("POST----> " + x.getKey()));
         putIncorrectEndpoints.forEach(x -> log.info("PUT----> " + x.getKey()));
@@ -195,6 +200,10 @@ public class Swagger2Verification extends AbstractSwaggerVerification {
             e.printStackTrace();
         }
         return yaml;
+    }
+
+    public List<Map.Entry<String, JsonNode>> getIncorrectEndpoints() {
+        return incorrectEndpoints;
     }
 
     @Override
