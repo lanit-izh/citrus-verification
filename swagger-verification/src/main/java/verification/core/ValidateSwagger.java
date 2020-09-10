@@ -1,4 +1,4 @@
-package verification;
+package verification.core;
 
 import com.github.bjansen.ssv.SwaggerValidator;
 import com.github.fge.jsonschema.core.exceptions.ProcessingException;

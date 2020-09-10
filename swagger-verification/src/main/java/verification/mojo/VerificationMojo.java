@@ -6,9 +6,10 @@ import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
-import verification.FileSwaggerReader;
-import verification.FileSwaggerWriter;
-import verification.Swagger2Verification;
+import verification.reader.FileSwaggerReader;
+import verification.writer.FileSwaggerWriter;
+import verification.results.Results;
+import verification.core.Swagger2Verification;
 import verification.utils.FreemarkerUtils;
 
 import java.io.File;
@@ -27,8 +28,13 @@ public class VerificationMojo extends AbstractMojo {
         FileSwaggerWriter fileWriter = new FileSwaggerWriter(file);
         fileWriter.write(swagger2Verification.verifyJsonSwagger(fileSystemReader.readFile()));
 
+        Results results = new Results.Builder()
+                .setDeleteIncorrectEndpoints(swagger2Verification.getDeleteIncorrectEndpoints())
+                .setPostIncorrectEndpoints(swagger2Verification.getPostIncorrectEndpoints())
+                .setPutIncorrectEndpoints(swagger2Verification.getPutIncorrectEndpoints())
+                .setGetIncorrectEndpoints(swagger2Verification.getGetIncorrectEndpoints()).build();
         try {
-            FreemarkerUtils.processTemplate(swagger2Verification.getIncorrectEndpoints());
+            FreemarkerUtils.processTemplate(results);
         } catch (IOException e) {
             e.printStackTrace();
         } catch (TemplateException e) {

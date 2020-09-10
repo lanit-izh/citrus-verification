@@ -1,4 +1,4 @@
-package verification;
+package verification.core;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 

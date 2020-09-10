@@ -1,12 +1,11 @@
-package verification;
+package verification.core;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
-import freemarker.template.TemplateException;
 import org.apache.log4j.Logger;
-import verification.utils.FreemarkerUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -46,7 +45,8 @@ public class Swagger2Verification extends AbstractSwaggerVerification {
 
             if (checkGetEndpoint(entry) || checkPostEndpoint(entry) || checkPutEndpoint(entry) || checkDeleteEndpoint(entry)) {
                 incorrectEndpoints.add(entry);
-              //  iterator.remove();
+
+             //   iterator.remove();
             }
         }
 
@@ -209,5 +209,25 @@ public class Swagger2Verification extends AbstractSwaggerVerification {
     @Override
     public String verifyJsonSwagger(String swagger) {
         return deleteJsonDeprecatedEndpoints(deleteIncorrectEndpoints(swagger));
+    }
+
+    @Override
+    public List<Map.Entry<String, JsonNode>> getPostIncorrectEndpoints() {
+        return postIncorrectEndpoints;
+    }
+
+    @Override
+    public List<Map.Entry<String, JsonNode>> getPutIncorrectEndpoints() {
+        return putIncorrectEndpoints;
+    }
+
+    @Override
+    public List<Map.Entry<String, JsonNode>> getGetIncorrectEndpoints() {
+        return getIncorrectEndpoints;
+    }
+
+    @Override
+    public List<Map.Entry<String, JsonNode>> getDeleteIncorrectEndpoints() {
+        return deleteIncorrectEndpoints;
     }
 }
