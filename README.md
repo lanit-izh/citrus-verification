@@ -21,7 +21,7 @@ mvn clean install
                             <artifactId>swagger-verification</artifactId>
                             <version>1.3.0</version>
                             <configuration>
-                                <path>D:\Work\checkSwagger\src\main\resources\api-docs.json</path>
+                                <path>D:\Work\checkSwagger\src\main\resources\api-shop.json</path>
                                 <isDelete>false</isDelete>
                             </configuration>
                             <executions>
