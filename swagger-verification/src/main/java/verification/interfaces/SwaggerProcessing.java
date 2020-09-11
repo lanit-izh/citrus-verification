@@ -2,8 +2,11 @@ package verification.interfaces;
 
 public interface SwaggerProcessing {
 
-    public String deleteJsonDeprecatedEndpoints(String swagger);
-    public String deleteYamlDeprecatedEndpoints(String swagger);
-    public String deleteIncorrectEndpoints(String swagger);
-    public String verifyJsonSwagger(String swagger);
+    String deleteJsonDeprecatedEndpoints(String swagger);
+
+    String deleteYamlDeprecatedEndpoints(String swagger);
+
+    String deleteIncorrectEndpoints(String swagger, boolean isDelete);
+
+    String verifyJsonSwagger(String swagger, boolean isDelete);
 }

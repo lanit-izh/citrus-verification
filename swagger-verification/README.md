@@ -2,7 +2,7 @@ swagger-verification
 version 1.1.3 
 
 swagger-verification - это верификатор спецификации Swagger OpenAPI.
-Библиотека удаляет deprecated и некорректные эндпоинты.
+Библиотека проверяет Swagger OpenAPI на deprecated и некорректные эндпоинты.
 
 Системные требования
 
@@ -16,27 +16,29 @@ Maven - 3.5 и выше
 mvn clean install
 Далее добавить в проект следующую конфигурацию плагина в POM-файл Maven:
 
-                       <plugin>
+                     <plugin>
                             <groupId>ru.lanit</groupId>
                             <artifactId>swagger-verification</artifactId>
-                            <version>1.1.3</version>
+                            <version>1.2.3</version>
                             <configuration>
-                                <path>src/main/resources/swagger/swagger-restfull.json</path>
+                                <path>D:\Work\checkSwagger\src\main\resources\api-docs.json</path>
+                                <isDelete>false</isDelete>
                             </configuration>
                             <executions>
                                 <execution>
                                     <id>process</id>
                                     <phase>process-classes</phase>
                                     <goals>
-                                        <goal>setPath</goal>
+                                        <goal>properties</goal>
                                     </goals>
                                 </execution>
                             </executions>
-                        </plugin>
+                       </plugin>
 Конфигурация плагина
 
 Основные настройки:
 <path> - путь к файлу спецификации Swagger OpenAPI;
+<isDelete> - удаление некорректных эндпоинтов;
 
 Выполняется с помощью команды:
 

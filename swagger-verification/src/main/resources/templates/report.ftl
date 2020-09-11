@@ -1,5 +1,4 @@
 <#ftl output_format="HTML">
-    <#import "generation.ftl" as generation />
 
 <html>
         <head>
@@ -39,22 +38,18 @@
                             <nav class="navbar navbar-expand-lg navbar-light bg-light">
                                 <div class="container">
                                     <div class="collapse navbar-collapse" id="navbarCollapse">
-                                        <a class="navbar-brand" href="#">Report</a>
-                                        <ul class="navbar-nav mr-auto">
+                                        <ul class="navbar-nav mx-auto">
                                             <li class="nav-item">
-                                                <a class="nav-link" href="#summary-section">Summary</a>
+                                                <a class="nav-link" href="#headingOne"><h4>GET endpoints</h4></a>
                                             </li>
                                             <li class="nav-item">
-                                                <a class="nav-link" href="#headingOne">GET endpoints</a>
+                                                <a class="nav-link" href="#headingTwo"><h4>POST endpoints</h4></a>
                                             </li>
                                             <li class="nav-item">
-                                                <a class="nav-link" href="#headingTwo">POST endpoints</a>
+                                                <a class="nav-link" href="#headingThree"><h4>PUT endpoints</h4></a>
                                             </li>
                                             <li class="nav-item">
-                                                <a class="nav-link" href="#headingThree">PUT endpoints</a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a class="nav-link" href="#headingFour">DELETE endpoints</a>
+                                                <a class="nav-link" href="#headingFour"><h4>DELETE endpoints</h4></a>
                                             </li>
                                         </ul>
                                     </div>
@@ -75,7 +70,8 @@
                 <#list results.getGetIncorrectEndpoints() as item>
                 <button type="button" class="list-group-item list-group-item-action">${item.getKey()}</li>
                 <#else>
-                    <p>All endpoints are correct
+                <button type="button" class="list-group-item list-group-item-action"></li>
+                <button type="button" class="list-group-item list-group-item-action">All endpoints are correct</li>
             </#list>
 </ul>
     </div>
@@ -95,7 +91,8 @@
                 <#list results.getPostIncorrectEndpoints() as key>
                 <button type="button" class="list-group-item list-group-item-action">${key.getKey()}</li>
                 <#else>
-                    <p>All endpoints are correct
+              <button type="button" class="list-group-item list-group-item-action">All endpoints are correct</li>
+
             </#list>
 </ul>
     </div>
@@ -114,7 +111,8 @@
                   <#list results.getPutIncorrectEndpoints() as key>
                   <button type="button" class="list-group-item list-group-item-action">${key.getKey()}</li>
                   <#else>
-                      <p>All endpoints are correct
+                   <button type="button" class="list-group-item list-group-item-action">All endpoints are correct</li>
+
               </#list>
   </ul>
       </div>
@@ -133,7 +131,7 @@
                   <#list results.getDeleteIncorrectEndpoints() as key>
                   <button type="button" class="list-group-item list-group-item-action">${key.getKey()}</li>
                   <#else>
-                      <p>All endpoints are correct
+                         <button type="button" class="list-group-item list-group-item-action">All endpoints are correct</li>
               </#list>
   </ul>
       </div>

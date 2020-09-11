@@ -1,6 +1,5 @@
 package verification.core;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
@@ -29,7 +28,7 @@ public class Swagger2Verification extends AbstractSwaggerVerification {
     private List<String> parameters = new ArrayList<>();
 
     @Override
-    public String deleteIncorrectEndpoints(String swagger) {
+    public String deleteIncorrectEndpoints(String swagger, boolean isDelete) {
 
         JsonNode actualObj = null;
         ObjectMapper mapper = new ObjectMapper();
@@ -45,12 +44,11 @@ public class Swagger2Verification extends AbstractSwaggerVerification {
 
             if (checkGetEndpoint(entry) || checkPostEndpoint(entry) || checkPutEndpoint(entry) || checkDeleteEndpoint(entry)) {
                 incorrectEndpoints.add(entry);
-
-             //   iterator.remove();
+                if (isDelete) {
+                    iterator.remove();
+                }
             }
         }
-
-
         getIncorrectEndpoints.forEach(x -> log.info("GET----> " + x.getKey()));
         postIncorrectEndpoints.forEach(x -> log.info("POST----> " + x.getKey()));
         putIncorrectEndpoints.forEach(x -> log.info("PUT----> " + x.getKey()));
@@ -207,8 +205,8 @@ public class Swagger2Verification extends AbstractSwaggerVerification {
     }
 
     @Override
-    public String verifyJsonSwagger(String swagger) {
-        return deleteJsonDeprecatedEndpoints(deleteIncorrectEndpoints(swagger));
+    public String verifyJsonSwagger(String swagger, boolean isDelete) {
+        return deleteJsonDeprecatedEndpoints(deleteIncorrectEndpoints(swagger, isDelete));
     }
 
     @Override

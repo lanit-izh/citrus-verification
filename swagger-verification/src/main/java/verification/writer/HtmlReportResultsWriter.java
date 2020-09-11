@@ -1,6 +1,5 @@
 package verification.writer;
 
-
 import freemarker.template.TemplateException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,12 +22,11 @@ public class HtmlReportResultsWriter implements CoverageResultsWriter {
     public HtmlReportResultsWriter() {
     }
 
-
     @Override
     public void write(Results results) throws IOException, TemplateException {
         Path path = Paths.get(filename);
         LOGGER.info(String.format("Write html report in file '%s'", path.toAbsolutePath()));
-            final String htmlReport = processTemplate(results);
-            Files.write(Paths.get(filename), htmlReport.getBytes());
+        final String htmlReport = processTemplate(results);
+        Files.write(Paths.get(filename), htmlReport.getBytes());
     }
 }

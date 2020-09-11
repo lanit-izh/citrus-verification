@@ -12,7 +12,8 @@ import java.io.IOException;
 public class ValidateSwagger {
 
     private String path;
-    public void validateJson()  {
+
+    public void validateJson() {
         BufferedReader spec = null;
         SwaggerValidator validator = null;
         try {
@@ -26,7 +27,7 @@ public class ValidateSwagger {
             e.printStackTrace();
         }
         try {
-          validator.validate("{\"name\": \"Bob\"}", "/api/clients/{clientId}/configs");
+            validator.validate("{\"name\": \"Bob\"}", "/api/clients/{clientId}/configs");
         } catch (NullPointerException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -35,6 +36,7 @@ public class ValidateSwagger {
             e.printStackTrace();
         }
     }
+
     public String getPath() {
         return path;
     }

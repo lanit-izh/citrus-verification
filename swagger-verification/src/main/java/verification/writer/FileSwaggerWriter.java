@@ -11,7 +11,8 @@ public class FileSwaggerWriter {
     public FileSwaggerWriter(File file) {
         this.file = file;
     }
-    public void write(String swagger){
+
+    public void write(String swagger) {
 
         try (FileWriter fw = new FileWriter(file.getPath())) {
             fw.write(swagger);

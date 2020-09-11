@@ -1,24 +1,10 @@
 package verification.utils;
 
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sun.javafx.collections.MappingChange;
-import io.swagger.models.Operation;
-import io.swagger.models.Path;
 import io.swagger.models.Swagger;
-import io.swagger.models.parameters.Parameter;
-import io.swagger.parser.SwaggerParser;
-import org.jvnet.hk2.internal.Collector;
 
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 public class JsonNodeParse {
 
@@ -44,6 +30,6 @@ public class JsonNodeParse {
 //            return null;
 //        }).collect(Collectors.joining());
 
-        return  new Swagger();
+        return new Swagger();
     }
-    }
+}

@@ -32,8 +32,8 @@ public class Results {
         return deleteIncorrectEndpoints;
     }
 
-    public int amountEndpoints(){
-        return getIncorrectEndpoints.size()+putIncorrectEndpoints.size() + deleteIncorrectEndpoints.size();
+    public int amountEndpoints() {
+        return getIncorrectEndpoints.size() + putIncorrectEndpoints.size() + deleteIncorrectEndpoints.size();
     }
 
     public static class Builder {
