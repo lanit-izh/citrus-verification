@@ -19,7 +19,7 @@ mvn clean install
                      <plugin>
                             <groupId>ru.lanit</groupId>
                             <artifactId>swagger-verification</artifactId>
-                            <version>1.2.3</version>
+                            <version>1.3.0</version>
                             <configuration>
                                 <path>D:\Work\checkSwagger\src\main\resources\api-docs.json</path>
                                 <isDelete>false</isDelete>

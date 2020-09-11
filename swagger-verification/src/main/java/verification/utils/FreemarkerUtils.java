@@ -6,8 +6,6 @@ import freemarker.template.TemplateException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import verification.results.Results;
-
-import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
@@ -18,15 +16,13 @@ public final class FreemarkerUtils {
 
     private static final Logger log = LoggerFactory.getLogger(FreemarkerUtils.class);
 
-    private final static String TEMPLATES = "src/main/resources/templates";
-
     private FreemarkerUtils() {
     }
 
     public static String processTemplate(Results results) throws IOException, TemplateException {
-        File file = new File(TEMPLATES);
+
         final Configuration configuration = new Configuration(Configuration.VERSION_2_3_28);
-        configuration.setDirectoryForTemplateLoading(file);
+        configuration.setClassForTemplateLoading(FreemarkerUtils.class, "/");
         configuration.setDefaultEncoding("UTF-8");
         Map<String, Object> root = new HashMap<>();
         root.put("results", results);

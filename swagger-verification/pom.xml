@@ -6,7 +6,7 @@
 
     <groupId>ru.lanit</groupId>
     <artifactId>swagger-verification</artifactId>
-    <version>1.2.6</version>
+    <version>1.3.0</version>
     <packaging>maven-plugin</packaging>
     <name>Verification Swagger Maven Plugin</name>
     <description>Verification Swagger Maven Plugin</description>

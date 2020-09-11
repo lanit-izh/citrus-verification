@@ -1,10 +1,10 @@
-//package verification;
-//
-//import freemarker.template.TemplateException;
-//import verification.core.Swagger2Verification;
-//import verification.reader.FileSwaggerReader;
-//import verification.results.Results;
-//import verification.writer.FileSwaggerWriter;
+package verification;
+
+import freemarker.template.TemplateException;
+import verification.core.Swagger2Verification;
+import verification.reader.FileSwaggerReader;
+import verification.results.Results;
+import verification.writer.FileSwaggerWriter;
 //import verification.writer.HtmlReportResultsWriter;
 //
 //import java.io.File;
